@@ -34,10 +34,11 @@ export default defineConfig({
 		host: '0.0.0.0',
 		open: true,
 		strictPort: false,
-		port: 3000
+		port: Number(process.env.VITE_PORT) || 3000
 	},
 	define: {
-		'import.meta.env.VITE_PORT': JSON.stringify(process.env.PORT || 3000),
+		'import.meta.env.VITE_PORT': JSON.stringify(process.env.VITE_PORT || 3000),
+    'import.meta.env.VITE_API_BASE_URL': JSON.stringify(process.env.VITE_API_BASE_URL || 'http://localhost:3001'),
 		global: 'window'
 	},
 	resolve: {

@@ -8,6 +8,15 @@ type AuthResponse = {
 	access_token: string;
 };
 
+type ApiAuthResponse = {
+	uid: string;
+	email: string;
+	displayName: string;
+	photoURL: string;
+	emailVerified: boolean;
+	accessToken: string;
+};
+
 /**
  * Refreshes the access token
  */
@@ -30,11 +39,26 @@ export async function authSignInWithToken(accessToken: string): Promise<Response
  * Sign in
  */
 export async function authSignIn(credentials: { email: string; password: string }): Promise<AuthResponse> {
-	return api
-		.post('mock/auth/sign-in', {
+	const response = (await api
+		.post('auth/login', {
 			json: credentials
 		})
-		.json();
+		.json()) as ApiAuthResponse;
+
+	// Transformar la respuesta de la API al formato esperado
+	return {
+		user: {
+			id: response.uid,
+			email: response.email,
+			displayName: response.displayName,
+			photoURL: response.photoURL,
+			role: ['admin'], // Puedes ajustar según tu lógica de roles
+			shortcuts: [],
+			settings: {},
+			loginRedirectUrl: '/'
+		},
+		access_token: response.accessToken
+	};
 }
 
 /**

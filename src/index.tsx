@@ -4,13 +4,14 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import routes from 'src/configs/routesConfig';
 import { worker } from '@mock-utils/mswMockAdapter';
-import { API_BASE_URL } from '@/utils/api';
+import { API_BASE_URL_MOCK } from '@/utils/api';
 
 async function mockSetup() {
 	return worker.start({
 		onUnhandledRequest: 'bypass',
 		serviceWorker: {
-			url: `${API_BASE_URL}/mockServiceWorker.js`
+			url: `${API_BASE_URL_MOCK}/mockServiceWorker.js`
+			//url: `${window.location.origin}/mockServiceWorker.js`  // ✅ Usa puerto 3000
 		}
 	});
 }
