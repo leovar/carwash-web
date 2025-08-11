@@ -11,6 +11,7 @@ type I18nProviderProps = {
 };
 
 const languages: LanguageType[] = [
+	{ id: 'es', title: 'Español', flag: 'ES' },
 	{ id: 'en', title: 'English', flag: 'US' },
 	{ id: 'tr', title: 'Turkish', flag: 'TR' },
 	{ id: 'ar', title: 'Arabic', flag: 'SA' }
