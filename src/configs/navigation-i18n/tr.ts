@@ -1,6 +1,7 @@
 const locale = {
 	APPLICATIONS: 'Programlar',
-	EXAMPLE: 'Örnek Sayfa'
+	EXAMPLE: 'Örnek Sayfa',
+	COMPANIES: 'Şirketler'
 };
 
 export default locale;
