@@ -1,6 +1,5 @@
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
 import { z } from 'zod';
 import _ from 'lodash';
 import TextField from '@mui/material/TextField';
@@ -9,6 +8,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@fuse/core/Link';
 import Button from '@mui/material/Button';
+import Alert from '@mui/material/Alert';
 import useJwtAuth from '../useJwtAuth';
 
 /**
@@ -34,7 +34,7 @@ const defaultValues: FormType = {
 function JwtSignInForm() {
 	const { signIn } = useJwtAuth();
 
-	const { control, formState, handleSubmit, setValue, setError } = useForm<FormType>({
+	const { control, formState, handleSubmit, setError } = useForm<FormType>({
 		mode: 'onChange',
 		defaultValues,
 		resolver: zodResolver(schema)
@@ -48,18 +48,45 @@ function JwtSignInForm() {
 		signIn({
 			email,
 			password
-		}).catch((error) => {
+		}).catch(async (error) => {
+			// Handle HTTPError from ky with JSON response
+			if (error?.response && typeof error.response.json === 'function') {
+				try {
+					const errorData = await error.response.json();
+					// If API returns { message: "Credenciales inválidas", error: "Unauthorized", statusCode: 401 }
+
+					if (errorData?.message) {
+						setError('root', {
+							type: 'manual',
+							message: errorData.message
+						});
+						return;
+					}
+				} catch {
+					// If JSON parsing fails, fall back to generic error
+				}
+			}
+
+			// Fallback for other error formats or legacy error handling
 			const errorData = error?.data as {
 				type: 'email' | 'password' | 'remember' | `root.${string}` | 'root';
 				message: string;
 			}[];
 
-			errorData?.forEach?.((err) => {
-				setError(err.type, {
-					type: 'manual',
-					message: err.message
+			if (errorData?.length > 0) {
+				errorData.forEach((err) => {
+					setError(err.type, {
+						type: 'manual',
+						message: err.message
+					});
 				});
-			});
+			} else {
+				// Generic error message if no specific format is found
+				setError('root', {
+					type: 'manual',
+					message: 'Error de autenticación. Verifique sus credenciales.'
+				});
+			}
 		});
 	}
 
@@ -70,6 +97,15 @@ function JwtSignInForm() {
 			className="flex w-full flex-col justify-center"
 			onSubmit={handleSubmit(onSubmit)}
 		>
+			{errors.root && (
+				<Alert
+					severity="error"
+					className="mb-6"
+				>
+					{errors.root.message}
+				</Alert>
+			)}
+
 			<Controller
 				name="email"
 				control={control}

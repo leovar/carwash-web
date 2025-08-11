@@ -43,9 +43,9 @@ function CompaniesView() {
 				header: 'License Type',
 				size: 150,
 				Cell: ({ cell }) => (
-					<Chip 
-						label={cell.getValue<string>()} 
-						size="small" 
+					<Chip
+						label={cell.getValue<string>()}
+						size="small"
 						variant="outlined"
 						className="capitalize"
 					/>
@@ -73,9 +73,7 @@ function CompaniesView() {
 				accessorKey: 'phone',
 				header: 'Phone',
 				size: 150,
-				Cell: ({ cell }) => (
-					<span className="font-mono text-sm">{cell.getValue<string>()}</span>
-				)
+				Cell: ({ cell }) => <span className="font-mono text-sm">{cell.getValue<string>()}</span>
 			},
 			{
 				accessorKey: 'endDate',
@@ -129,9 +127,7 @@ function CompaniesView() {
 				}
 				content={
 					<div className="p-6">
-						<div className="text-red-500">
-							Error loading companies: {error.message}
-						</div>
+						<div className="text-red-500">Error loading companies: {error.message}</div>
 					</div>
 				}
 			/>
@@ -143,13 +139,11 @@ function CompaniesView() {
 			header={
 				<div className="p-6">
 					<h4>Companies</h4>
-					<p className="text-sm text-gray-500">
-						Manage company information and licensing details
-					</p>
+					<p className="text-sm text-gray-500">Manage company information and licensing details</p>
 				</div>
 			}
 			content={
-				<div className="flex flex-col flex-auto p-6">
+				<div className="flex flex-auto flex-col p-6">
 					<DataTable
 						columns={columns}
 						data={companies || []}
