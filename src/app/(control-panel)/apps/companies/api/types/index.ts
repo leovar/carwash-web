@@ -4,6 +4,7 @@ export interface Company {
 	licenseType: string;
 	isActive: boolean;
 	phone: string;
+	description: string;
 	endDate: string;
 	creationDate: string;
 }
@@ -13,4 +14,22 @@ export interface CompaniesResponse {
 	total: number;
 	page: number;
 	limit: number;
+}
+
+export interface CreateCompanyRequest {
+	companyName: string;
+	licenseType: string;
+	isActive: boolean;
+	phone: string;
+	description: string;
+	endDate: string;
+}
+
+export interface UpdateCompanyRequest {
+	companyName?: string;
+	licenseType?: string;
+	isActive?: boolean;
+	phone?: string;
+	description?: string;
+	endDate?: string;
 }

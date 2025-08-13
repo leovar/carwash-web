@@ -15,6 +15,7 @@ type ApiAuthResponse = {
 	photoURL: string;
 	emailVerified: boolean;
 	accessToken: string;
+	role: string[];
 };
 
 /**
@@ -30,9 +31,7 @@ export async function authRefreshToken(): Promise<Response> {
  * Sign in with token
  */
 export async function authSignInWithToken(accessToken: string): Promise<Response> {
-	return api.get('mock/auth/sign-in-with-token', {
-		headers: { Authorization: `Bearer ${accessToken}` }
-	});
+	return api.post('auth/login-with-token', { json: { idToken: accessToken } });
 }
 
 /**
@@ -52,7 +51,7 @@ export async function authSignIn(credentials: { email: string; password: string 
 			email: response.email,
 			displayName: response.displayName,
 			photoURL: response.photoURL,
-			role: ['admin'], // Puedes ajustar según tu lógica de roles
+			role: response.role, // ['admin'], // Puedes ajustar según tu lógica de roles
 			shortcuts: [],
 			settings: {},
 			loginRedirectUrl: '/'
