@@ -8,6 +8,6 @@ export const useCompany = (companyId: string) => {
 		queryKey: companyQueryKey(companyId),
 		queryFn: () => companiesApi.getCompany(companyId),
 		staleTime: 5 * 60 * 1000, // 5 minutes
-		enabled: !!companyId // Only run query if companyId exists
+		enabled: !!companyId && companyId !== 'new' // Only run query if companyId exists and is not 'new'
 	});
 };

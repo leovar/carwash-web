@@ -1,6 +1,6 @@
 import { styled } from '@mui/material/styles';
 import { useMemo } from 'react';
-import { Chip, Checkbox, ListItemIcon, MenuItem, Paper } from '@mui/material';
+import { Chip, Checkbox, Paper } from '@mui/material';
 import type { MRT_ColumnDef } from 'material-react-table';
 import DataTable from '@/components/data-table/DataTable';
 import FuseLoading from '@fuse/core/FuseLoading';
@@ -21,7 +21,7 @@ function CompaniesTable() {
 		() => [
 			{
 				accessorKey: 'companyName',
-				header: 'Company Name',
+				header: 'Nombre',
 				size: 200,
 				Cell: ({ cell }) => (
 					<div className="flex items-center">
@@ -30,8 +30,8 @@ function CompaniesTable() {
 				)
 			},
 			{
-				accessorKey: 'licenseType',
-				header: 'License Type',
+				accessorKey: 'city',
+				header: 'Ciudad',
 				size: 150,
 				Cell: ({ cell }) => (
 					<Chip
@@ -44,7 +44,7 @@ function CompaniesTable() {
 			},
 			{
 				accessorKey: 'isActive',
-				header: 'Status',
+				header: 'Estado',
 				size: 100,
 				Cell: ({ cell }) => (
 					<Checkbox
@@ -62,30 +62,23 @@ function CompaniesTable() {
 			},
 			{
 				accessorKey: 'phone',
-				header: 'Phone',
+				header: 'Teléfono',
 				size: 150,
 				Cell: ({ cell }) => <span className="font-mono text-sm">{cell.getValue<string>()}</span>
 			},
 			{
-				accessorKey: 'endDate',
-				header: 'End Date',
+				accessorKey: 'email',
+				header: 'Correo',
 				size: 120,
-				Cell: ({ cell }) => {
-					const date = new Date(cell.getValue<string>());
-					return (
-						<span className="text-sm">
-							{date.toLocaleDateString('es-ES', {
-								day: '2-digit',
-								month: '2-digit',
-								year: 'numeric'
-							})}
-						</span>
-					);
-				}
+				Cell: ({ cell }) => (
+					<div className="flex items-center">
+						<span className="font-medium">{cell.getValue<string>()}</span>
+					</div>
+				)
 			},
 			{
-				accessorKey: 'creationDate',
-				header: 'Creation Date',
+				accessorKey: 'createdDate',
+				header: 'Fecha de creación',
 				size: 120,
 				Cell: ({ cell }) => {
 					const date = new Date(cell.getValue<string>());

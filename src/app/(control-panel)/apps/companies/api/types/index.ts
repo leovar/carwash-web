@@ -1,12 +1,19 @@
 export interface Company {
 	id: string;
+	address: string;
+	city: string;
+	companyCode: number;
 	companyName: string;
-	licenseType: string;
-	isActive: boolean;
-	phone: string;
+	contactName: string;
+	country: string;
+	createdDate: Date;
 	description: string;
-	endDate: string;
-	creationDate: string;
+	email: string;
+	isActive: boolean;
+	mainCompany: string;
+	nit: string;
+	phone: string;
+	region: string;
 }
 
 export interface CompaniesResponse {
@@ -32,4 +39,21 @@ export interface UpdateCompanyRequest {
 	phone?: string;
 	description?: string;
 	endDate?: string;
+}
+
+export interface Municipality {
+	name: string;
+}
+
+export interface Region {
+	id: string;
+	name: string;
+	municipalities: Municipality[];
+}
+
+export interface RegionsResponse {
+	data: Region[];
+	total: number;
+	page: number;
+	limit: number;
 }

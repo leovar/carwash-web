@@ -15,11 +15,11 @@ import useJwtAuth from '../useJwtAuth';
  * Form Validation Schema
  */
 const schema = z.object({
-	email: z.string().email('You must enter a valid email').nonempty('You must enter an email'),
+	email: z.string().email('Debes ingresar un email válido').nonempty('Debe ingresar un email'),
 	password: z
 		.string()
-		.min(4, 'Password is too short - must be at least 4 chars.')
-		.nonempty('Please enter your password.'),
+		.min(4, 'Contraseña muy corta - debe tener al menos 4 caraceres.')
+		.nonempty('Por favor ingrese una contraseña.'),
 	remember: z.boolean().optional()
 });
 

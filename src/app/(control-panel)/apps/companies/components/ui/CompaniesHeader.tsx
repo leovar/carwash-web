@@ -14,7 +14,7 @@ function CompaniesHeader() {
 						animate={{ x: 0, transition: { delay: 0.2 } }}
 					>
 						<Typography className="text-4xl leading-none font-extrabold tracking-tight">
-							Products
+							Compañías
 						</Typography>
 					</motion.span>
 

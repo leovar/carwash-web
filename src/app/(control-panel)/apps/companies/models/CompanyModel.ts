@@ -8,12 +8,20 @@ import { Company } from '../api/types';
 const CompanyModel = (data: PartialDeep<Company>) =>
 	_.defaults(data || {}, {
 		id: _.uniqueId('company-'),
+		address: '',
+		city: '',
+		companyCode: '',
 		companyName: '',
-		licenseType: '',
+		contactName: '',
+		country: '',
+		createdDate: '',
+		description: '',
+		email: '',
 		isActive: true,
+		mainCompany: '',
+		nit: '',
 		phone: '',
-		endDate: '',
-		creationDate: ''
+		region: ''
 	});
 
 export default CompanyModel;

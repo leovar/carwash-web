@@ -1,5 +1,12 @@
 import { api } from '@/utils/api';
-import { Company, CompaniesResponse, CreateCompanyRequest, UpdateCompanyRequest } from '../types';
+import {
+	Company,
+	CompaniesResponse,
+	CreateCompanyRequest,
+	UpdateCompanyRequest,
+	Region,
+	RegionsResponse
+} from '../types';
 
 export const companiesApi = {
 	getCompanies: async (): Promise<Company[]> => {
@@ -14,12 +21,16 @@ export const companiesApi = {
 
 	createCompany: async (companyData: CreateCompanyRequest): Promise<Company> => {
 		const response = await api.post('companies', { json: companyData }).json<Company>();
-    debugger;
 		return response;
 	},
 
 	updateCompany: async (id: string, companyData: UpdateCompanyRequest): Promise<Company> => {
 		const response = await api.put(`companies/${id}`, { json: companyData }).json<Company>();
 		return response;
+	},
+
+	getRegions: async (): Promise<Region[]> => {
+		const response = await api.get('regions').json<RegionsResponse>();
+		return response.data || (response as unknown as Region[]);
 	}
 };

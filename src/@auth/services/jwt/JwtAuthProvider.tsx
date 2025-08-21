@@ -78,6 +78,7 @@ function JwtAuthProvider(props: FuseAuthProviderComponentProps) {
 						isAuthenticated: true,
 						user: userData
 					});
+					setGlobalHeaders({ Authorization: `Bearer ${tokenStorageValue}` });
 				} else {
 					removeTokenStorageValue();
 					removeGlobalHeaders(['Authorization']);
