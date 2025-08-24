@@ -4,22 +4,22 @@ import { motion } from 'motion/react';
 import { useFormContext } from 'react-hook-form';
 import useParams from '@fuse/hooks/useParams';
 import _ from 'lodash';
-import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import useNavigate from '@fuse/hooks/useNavigate';
+import Alert from '@mui/material/Alert';
 import { useCreateCompany } from '../../api/hooks/useCreateCompany';
 import { useUpdateCompany } from '../../api/hooks/useUpdateCompany';
-import { Company } from '../../api/types';
-import { useState } from 'react';
+import { Company, CreateCompanyRequest } from '../../api/types';
+import { useState, useEffect } from 'react';
 
 function CompanyHeader() {
 	const routeParams = useParams<{ companyId: string }>();
 	const { companyId } = routeParams;
 
-	const { mutate: createCompany } = useCreateCompany();
+	const { mutate: createCompany, isSuccess, isError, isPending, error } = useCreateCompany();
 	const { mutate: saveCompany } = useUpdateCompany();
 
 	const methods = useFormContext();
-	const { formState, watch, getValues } = methods;
+	const { formState, watch, getValues, reset } = methods;
 	const { isValid, dirtyFields } = formState;
 
 	const navigate = useNavigate();
@@ -27,6 +27,33 @@ function CompanyHeader() {
 	const { companyName } = watch() as Company;
 	const [images, setImages] = useState([]);
 	const [featuredImageId, setFeaturedImageId] = useState('');
+	const [showAlert, setShowAlert] = useState(false);
+	const [showErrorAlert, setShowErrorAlert] = useState(false);
+
+	useEffect(() => {
+		if (isSuccess) {
+			reset();
+			setShowAlert(true);
+
+			const timer = setTimeout(() => {
+				setShowAlert(false);
+			}, 3000);
+
+			return () => clearTimeout(timer);
+		}
+	}, [isSuccess, reset]);
+
+	useEffect(() => {
+		if (isError) {
+			setShowErrorAlert(true);
+
+			const timer = setTimeout(() => {
+				setShowErrorAlert(false);
+			}, 5000);
+
+			return () => clearTimeout(timer);
+		}
+	}, [isError]);
 
 	function handleSaveCompany() {
 		if (companyId) {
@@ -38,11 +65,28 @@ function CompanyHeader() {
 	}
 
 	function handleCreateCompany() {
-		createCompany(getValues() as Company);
+		const { id, createdDate, companyCode, mainCompany, ...createRequest } = getValues() as Company;
+		createCompany(createRequest as CreateCompanyRequest);
 	}
 
 	return (
 		<div className="flex flex-auto flex-col py-4">
+			{showAlert && (
+				<Alert
+					severity="success"
+					className="mb-6"
+				>
+					Compañía creada exitosamente
+				</Alert>
+			)}
+			{showErrorAlert && (
+				<Alert
+					severity="error"
+					className="mb-6"
+				>
+					Error al crear la compañía: {error?.message || 'Error desconocido'}
+				</Alert>
+			)}
 			<div className="flex min-w-0 flex-auto flex-col gap-2 sm:flex-row sm:items-center">
 				<div className="flex flex-auto items-center gap-2">
 					<motion.div
@@ -102,10 +146,10 @@ function CompanyHeader() {
 							className="mx-1 whitespace-nowrap"
 							variant="contained"
 							color="secondary"
-							disabled={_.isEmpty(dirtyFields) || !isValid}
+							disabled={_.isEmpty(dirtyFields) || !isValid || isPending}
 							onClick={handleCreateCompany}
 						>
-							Crear
+							{isPending ? 'Creando...' : 'Crear'}
 						</Button>
 					)}
 				</motion.div>

@@ -25,11 +25,16 @@ export interface CompaniesResponse {
 
 export interface CreateCompanyRequest {
 	companyName: string;
-	licenseType: string;
-	isActive: boolean;
 	phone: string;
-	description: string;
-	endDate: string;
+	email: string;
+	nit?: string;
+	contactName?: string;
+	address?: string;
+	country?: string;
+	region?: string;
+	city?: string;
+	description?: string;
+	isActive: boolean;
 }
 
 export interface UpdateCompanyRequest {

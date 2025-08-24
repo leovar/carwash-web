@@ -28,7 +28,16 @@ const schema = z.object({
 	companyName: z
 		.string()
 		.nonempty('Debes ingresar un nombre de empresa')
-		.min(2, 'El nombre de la empresa debe tener al menos 2 caracteres')
+		.min(2, 'El nombre de la empresa debe tener al menos 2 caracteres'),
+	phone: z
+		.string()
+		.nonempty('Debes ingresar un número de teléfono')
+		.min(10, 'El número de teléfono debe tener al menos 10 dígitos')
+		.regex(/^\d+$/, 'El número de teléfono solo puede contener dígitos'),
+	email: z
+		.string()
+		.nonempty('Debes ingresar un email')
+		.email('Debes ingresar un email válido')
 });
 
 function Company() {
