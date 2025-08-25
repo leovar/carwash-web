@@ -64,9 +64,11 @@ function JwtAuthProvider(props: FuseAuthProviderComponentProps) {
 					if (error instanceof HTTPError) {
 						console.error('Response status:', error.response.status);
 					}
+
 					return false;
 				}
 			}
+
 			return false;
 		};
 
@@ -230,11 +232,11 @@ function JwtAuthProvider(props: FuseAuthProviderComponentProps) {
 					setGlobalHeaders({ Authorization: `Bearer ${newAccessToken}` });
 					setTokenStorageValue(newAccessToken);
 				}
-				/*
+
 				if (response.status === 401) {
 					signOut();
 					console.error('Unauthorized request. User was signed out.');
-				}*/
+				}
 
 				return response;
 			} catch (error) {
