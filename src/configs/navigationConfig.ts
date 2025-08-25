@@ -35,6 +35,14 @@ const navigationConfig: FuseNavItemType[] = [
 				type: 'item',
 				icon: 'lucide:building',
 				url: 'apps/companies'
+			},
+			{
+				id: 'subscription-plans',
+				title: 'Subscription Plans',
+				translate: 'SUBSCRIPTION_PLANS',
+				type: 'item',
+				icon: 'lucide:credit-card',
+				url: 'apps/subscription-plans'
 			}
 		]
 	}
